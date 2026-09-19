@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Coordination Tracker - Professional</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        .main-container {
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 25px 30px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        h1 {
+            color: #1F4E78;
+            font-size: 26px;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .main-tabs {
+            display: flex;
+            gap: 5px;
+            background: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            border-bottom: 3px solid #e0e0e0;
+        }
+
+        .main-tab-btn {
+            padding: 12px 28px;
+            border: none;
+            background: none;
+            font-size: 15px;
+            cursor: pointer;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .main-tab-btn.active {
+            color: white;
+            background: #1F4E78;
+            border-radius: 6px 6px 0 0;
+            border-bottom: 3px solid #0f3050;
+        }
+
+        .main-tab-btn:hover {
+            color: #1F4E78;
+        }
+
+        .main-tab-content {
+            display: none;
+            padding: 20px 30px;
+        }
+
+        .main-tab-content.active {
+            display: block;
+        }
+
+        .sub-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .sub-tab-btn {
+            padding: 10px 20px;
+            border: 2px solid #ddd;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
+            color: #666;
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .sub-tab-btn.active {
+            color: white;
+            background: #1F4E78;
+            border-color: #1F4E78;
+        }
+
+        .sub-tab-btn:hover {
+            border-color: #1F4E78;
+            color: #1F4E78;
+        }
+
+        .sub-tab-content {
+            display: none;
+        }
+
+        .sub-tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+
+        .card h2 {
+            color: #1F4E78;
+            font-size: 18px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .form-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1F4E78;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 16px;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #1F4E78;
+            box-shadow: 0 0 0 3px rgba(31, 78, 120, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+
+        button {
+            padding: 11px 22px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #1F4E78;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #153a5a;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(31, 78, 120, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #1F4E78;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1F4E78;
+            margin-bottom: 6px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        thead {
+            background: #1F4E78;
+            color: white;
+        }
+
+        th {
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        tbody tr:hover {
+            background: #f9f9f9;
+        }
+
+        .status-select {
+            padding: 8px 10px;
+            font-size: 13px;
+            cursor: pointer;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            background: white;
+            font-weight: 500;
+            width: 100%;
+            transition: all 0.2s;
+        }
+
+        .status-select:focus {
+            outline: none;
+            border-color: #1F4E78;
+            box-shadow: 0 0 0 2px rgba(31, 78, 120, 0.1);
+        }
+
+        .status-red {
+            background-color: #FFC7CE;
+            color: #9C0000;
+            border-color: #FF9999;
+        }
+
+        .status-yellow {
+            background-color: #FFEB9C;
+            color: #9C6500;
+            border-color: #FFD966;
+        }
+
+        .status-orange {
+            background-color: #FFD8A8;
+            color: #9C4E00;
+            border-color: #F4A460;
+        }
+
+        .status-green {
+            background-color: #C6EFCE;
+            color: #006100;
+            border-color: #92D050;
+        }
+
+        .delete-btn {
+            padding: 6px 12px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .delete-btn:hover {
+            background: #ff5252;
+            transform: scale(1.05);
+        }
+
+        .success-message {
+            background: #C6EFCE;
+            color: #006100;
+            padding: 14px 16px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            display: none;
+            border-left: 4px solid #92D050;
+            font-weight: 500;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .completion-bar {
+            width: 100%;
+            height: 6px;
+            background: #e8e8e8;
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 2px 0;
+        }
+
+        .completion-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #92D050, #70AD47);
+            transition: width 0.3s ease;
+        }
+
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+            margin-top: 20px;
+            padding: 16px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+
+        .legend-red { background: #FFC7CE; }
+        .legend-yellow { background: #FFEB9C; }
+        .legend-orange { background: #FFD8A8; }
+        .legend-green { background: #C6EFCE; }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #999;
+        }
+
+        .empty-state-text {
+            font-size: 14px;
+        }
+
+        @media (max-width: 1024px) {
+            .form-row-3 {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 10px 8px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-row, .form-row-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .main-tabs {
+                flex-wrap: wrap;
+                padding: 12px 15px;
+            }
+
+            .main-tab-btn {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+
+            table {
+                font-size: 11px;
+            }
+
+            th, td {
+                padding: 8px 6px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            header {
+                padding: 20px 15px;
+            }
+
+            .main-tab-content {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <header>
+            <h1>📊 Event Coordination Tracker</h1>
+            <p class="subtitle">Professional event management • Action items focused • Real-time tracking</p>
+        </header>
+
+        <div class="main-tabs">
+            <button class="main-tab-btn active" onclick="switchMainTab('add-new', event)">
+                ➕ ADD NEW ATTENDEE
+            </button>
+            <button class="main-tab-btn" onclick="switchMainTab('report', event)">
+                📈 REPORT
+            </button>
+        </div>
+
+        <!-- ==================== ADD NEW ATTENDEE TAB ==================== -->
+        <div id="add-new" class="main-tab-content active">
+            <div class="sub-tabs">
+                <button class="sub-tab-btn active" onclick="switchSubTab('add-foreign', event)">
+                    🌍 Foreign Attendee
+                </button>
+                <button class="sub-tab-btn" onclick="switchSubTab('add-domestic', event)">
+                    🇮🇳 Domestic Attendee
+                </button>
+            </div>
+
+            <!-- FOREIGN FORM -->
+            <div id="add-foreign" class="sub-tab-content active">
+                <div class="card">
+                    <h2>🌍 Add Foreign Attendee</h2>
+                    <div class="success-message" id="foreign-success">✓ Foreign attendee added successfully! Switching to Report...</div>
+                    
+                    <div class="form-section">
+                        <div class="form-title">Essential Information</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Full Name *</label>
+                                <input type="text" id="f-name" placeholder="First & Last name">
+                            </div>
+                            <div class="form-group">
+                                <label>Country (Coming From) *</label>
+                                <input type="text" id="f-country" placeholder="e.g., USA, UK, Canada">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Passport Number *</label>
+                                <input type="text" id="f-passport" placeholder="Passport #">
+                            </div>
+                            <div class="form-group">
+                                <label>Passport Expiry Date *</label>
+                                <input type="date" id="f-passport-expiry">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>WhatsApp Number *</label>
+                                <input type="tel" id="f-whatsapp" placeholder="+1 (555) 000-0000">
+                            </div>
+                            <div class="form-group">
+                                <label>Emergency Contact Number *</label>
+                                <input type="tel" id="f-emergency" placeholder="+1 (555) 000-0000">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Emergency Contact Name</label>
+                                <input type="text" id="f-emergency-name" placeholder="Name">
+                            </div>
+                            <div class="form-group">
+                                <label>Food Preference</label>
+                                <input type="text" id="f-food" placeholder="Veg, Non-veg, Allergies, etc.">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-title">Action Items Status</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Visa</label>
+                                <select id="f-visa">
+                                    <option value="Pending">Pending</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Approved">Approved</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Travel Insurance</label>
+                                <select id="f-insurance">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Approved">Approved</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Onward Flight</label>
+                                <select id="f-onward-flight">
+                                    <option value="Yet to Book">Yet to Book</option>
+                                    <option value="Waiting for Confirmation">Waiting for Confirmation</option>
+                                    <option value="Partially">Partially Booked</option>
+                                    <option value="Booked">Booked</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Return Flight</label>
+                                <select id="f-return-flight">
+                                    <option value="Yet to Book">Yet to Book</option>
+                                    <option value="Waiting for Confirmation">Waiting for Confirmation</option>
+                                    <option value="Partially">Partially Booked</option>
+                                    <option value="Booked">Booked</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Accommodation</label>
+                                <select id="f-accommodation">
+                                    <option value="Not Booked">Not Booked</option>
+                                    <option value="Booked">Booked</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Airport Pickup</label>
+                                <select id="f-pickup">
+                                    <option value="Not Arranged">Not Arranged</option>
+                                    <option value="Arranged">Arranged</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Airport Drop</label>
+                                <select id="f-drop">
+                                    <option value="Not Arranged">Not Arranged</option>
+                                    <option value="Arranged">Arranged</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Arrival & Check-in</label>
+                                <select id="f-checkin">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Confirmed">Confirmed</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Notes/Remarks</label>
+                        <textarea id="f-notes" placeholder="Any special requirements, special requests, etc."></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn-primary" onclick="addForeignAttendee()">Add Attendee</button>
+                        <button class="btn-secondary" onclick="clearForeignForm()">Clear</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DOMESTIC FORM -->
+            <div id="add-domestic" class="sub-tab-content">
+                <div class="card">
+                    <h2>🇮🇳 Add Domestic Attendee</h2>
+                    <div class="success-message" id="domestic-success">✓ Domestic attendee added successfully! Switching to Report...</div>
+                    
+                    <div class="form-section">
+                        <div class="form-title">Essential Information</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Full Name *</label>
+                                <input type="text" id="d-name" placeholder="First & Last name">
+                            </div>
+                            <div class="form-group">
+                                <label>Location/City *</label>
+                                <input type="text" id="d-city" placeholder="Home city">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Phone Number *</label>
+                                <input type="tel" id="d-phone" placeholder="+91 98765 43210">
+                            </div>
+                            <div class="form-group">
+                                <label>WhatsApp Number</label>
+                                <input type="tel" id="d-whatsapp" placeholder="+91 98765 43210">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Emergency Contact Number *</label>
+                                <input type="tel" id="d-emergency" placeholder="+91 98765 43210">
+                            </div>
+                            <div class="form-group">
+                                <label>Emergency Contact Name</label>
+                                <input type="text" id="d-emergency-name" placeholder="Name">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Travel Mode *</label>
+                                <select id="d-travel-mode">
+                                    <option value="">Select...</option>
+                                    <option value="Flight">Flight</option>
+                                    <option value="Train">Train</option>
+                                    <option value="Bus">Bus</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Food Preference</label>
+                                <input type="text" id="d-food" placeholder="Veg, Non-veg, Allergies, etc.">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-title">Action Items Status</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Registration</label>
+                                <select id="d-registration">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Confirmed">Confirmed</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Travel Booked</label>
+                                <select id="d-travel-booked">
+                                    <option value="Yet to Book">Yet to Book</option>
+                                    <option value="Waiting for Confirmation">Waiting for Confirmation</option>
+                                    <option value="Booked">Booked</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Accommodation</label>
+                                <select id="d-accommodation">
+                                    <option value="Not Booked">Not Booked</option>
+                                    <option value="Booked">Booked</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Check-in at Event</label>
+                                <select id="d-checkin">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Confirmed">Confirmed</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Notes/Remarks</label>
+                        <textarea id="d-notes" placeholder="Any special requirements, special requests, etc."></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <button class="btn-primary" onclick="addDomesticAttendee()">Add Attendee</button>
+                        <button class="btn-secondary" onclick="clearDomesticForm()">Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== REPORT TAB ==================== -->
+        <div id="report" class="main-tab-content">
+            <div class="card">
+                <h2>📊 Summary Statistics</h2>
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-foreign">0</div>
+                        <div class="stat-label">Total Foreign Attendees</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="tasks-foreign">0</div>
+                        <div class="stat-label">Foreign Tasks Completed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-domestic">0</div>
+                        <div class="stat-label">Total Domestic Attendees</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="tasks-domestic">0</div>
+                        <div class="stat-label">Domestic Tasks Completed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="overall-completion">0%</div>
+                        <div class="stat-label">Overall Completion Rate</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sub-tabs">
+                <button class="sub-tab-btn active" onclick="switchSubTab('report-foreign', event)">
+                    🌍 Foreign Attendees
+                </button>
+                <button class="sub-tab-btn" onclick="switchSubTab('report-domestic', event)">
+                    🇮🇳 Domestic Attendees
+                </button>
+            </div>
+
+            <!-- FOREIGN REPORT -->
+            <div id="report-foreign" class="sub-tab-content active">
+                <div class="card">
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-color legend-red"></div>
+                            <span>Pending / Yet to Book</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color legend-yellow"></div>
+                            <span>In Progress</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color legend-orange"></div>
+                            <span>Waiting / Partially Done</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color legend-green"></div>
+                            <span>Done / Approved / Confirmed</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="foreign-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Country</th>
+                                <th>Visa</th>
+                                <th>Insurance</th>
+                                <th>Onward Flight</th>
+                                <th>Return Flight</th>
+                                <th>Accommodation</th>
+                                <th>Pickup</th>
+                                <th>Drop</th>
+                                <th>Check-in</th>
+                                <th>Completion</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="foreign-tbody">
+                            <tr>
+                                <td colspan="13" class="empty-state-text">No attendees added yet</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- DOMESTIC REPORT -->
+            <div id="report-domestic" class="sub-tab-content">
+                <div class="card">
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-color legend-red"></div>
+                            <span>Pending / Not Booked / Yet to Book</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color legend-orange"></div>
+                            <span>Waiting for Confirmation</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color legend-green"></div>
+                            <span>Done / Confirmed / Booked</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="domestic-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>City</th>
+                                <th>Mode</th>
+                                <th>Registration</th>
+                                <th>Travel Booked</th>
+                                <th>Accommodation</th>
+                                <th>Check-in</th>
+                                <th>Completion</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="domestic-tbody">
+                            <tr>
+                                <td colspan="10" class="empty-state-text">No attendees added yet</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let foreignAttendees = JSON.parse(localStorage.getItem('foreignAttendees')) || [];
+        let domesticAttendees = JSON.parse(localStorage.getItem('domesticAttendees')) || [];
+
+        function switchMainTab(tab, event) {
+            document.querySelectorAll('.main-tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.main-tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function switchSubTab(tab, event) {
+            const parent = event.target.closest('.sub-tabs').parentElement;
+            parent.querySelectorAll('.sub-tab-content').forEach(el => el.classList.remove('active'));
+            parent.querySelectorAll('.sub-tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function getStatusClass(status) {
+            if (status === 'Pending' || status === 'Yet to Book' || status === 'Not Booked' || status === 'Not Arranged') return 'status-red';
+            if (status === 'In Progress') return 'status-yellow';
+            if (status === 'Waiting for Confirmation' || status === 'Partially') return 'status-orange';
+            if (status === 'Approved' || status === 'Confirmed' || status === 'Booked' || status === 'Arranged') return 'status-green';
+            return 'status-red';
+        }
+
+        function addForeignAttendee() {
+            const name = document.getElementById('f-name').value;
+            const country = document.getElementById('f-country').value;
+            const passport = document.getElementById('f-passport').value;
+            const whatsapp = document.getElementById('f-whatsapp').value;
+            const emergency = document.getElementById('f-emergency').value;
+
+            if (!name || !country || !passport || !whatsapp || !emergency) {
+                alert('Please fill in all required fields (marked with *)');
+                return;
+            }
+
+            const attendee = {
+                id: Date.now(),
+                name,
+                country,
+                passport,
+                passport_expiry: document.getElementById('f-passport-expiry').value,
+                whatsapp,
+                emergency,
+                emergency_name: document.getElementById('f-emergency-name').value,
+                food: document.getElementById('f-food').value,
+                visa: document.getElementById('f-visa').value,
+                insurance: document.getElementById('f-insurance').value,
+                onward_flight: document.getElementById('f-onward-flight').value,
+                return_flight: document.getElementById('f-return-flight').value,
+                accommodation: document.getElementById('f-accommodation').value,
+                pickup: document.getElementById('f-pickup').value,
+                drop: document.getElementById('f-drop').value,
+                checkin: document.getElementById('f-checkin').value,
+                notes: document.getElementById('f-notes').value
+            };
+
+            foreignAttendees.push(attendee);
+            localStorage.setItem('foreignAttendees', JSON.stringify(foreignAttendees));
+            renderForeignTable();
+            updateStats();
+            clearForeignForm();
+            showSuccess('foreign-success');
+            
+            // Auto-switch to Report tab
+            setTimeout(() => {
+                document.querySelectorAll('.main-tab-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.main-tab-content').forEach(content => content.classList.remove('active'));
+                document.querySelector('[onclick*="report"]').classList.add('active');
+                document.getElementById('report').classList.add('active');
+            }, 500);
+        }
+
+        function addDomesticAttendee() {
+            const name = document.getElementById('d-name').value;
+            const city = document.getElementById('d-city').value;
+            const phone = document.getElementById('d-phone').value;
+            const emergency = document.getElementById('d-emergency').value;
+            const travel_mode = document.getElementById('d-travel-mode').value;
+
+            if (!name || !city || !phone || !emergency || !travel_mode) {
+                alert('Please fill in all required fields (marked with *)');
+                return;
+            }
+
+            const attendee = {
+                id: Date.now(),
+                name,
+                city,
+                phone,
+                whatsapp: document.getElementById('d-whatsapp').value,
+                emergency,
+                emergency_name: document.getElementById('d-emergency-name').value,
+                travel_mode,
+                food: document.getElementById('d-food').value,
+                registration: document.getElementById('d-registration').value,
+                travel_booked: document.getElementById('d-travel-booked').value,
+                accommodation: document.getElementById('d-accommodation').value,
+                checkin: document.getElementById('d-checkin').value,
+                notes: document.getElementById('d-notes').value
+            };
+
+            domesticAttendees.push(attendee);
+            localStorage.setItem('domesticAttendees', JSON.stringify(domesticAttendees));
+            renderDomesticTable();
+            updateStats();
+            clearDomesticForm();
+            showSuccess('domestic-success');
+            
+            // Auto-switch to Report tab
+            setTimeout(() => {
+                document.querySelectorAll('.main-tab-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.main-tab-content').forEach(content => content.classList.remove('active'));
+                document.querySelector('[onclick*="report"]').classList.add('active');
+                document.getElementById('report').classList.add('active');
+            }, 500);
+        }
+
+        function updateForeignStatus(id, field, value) {
+            const attendee = foreignAttendees.find(a => a.id === id);
+            if (attendee) {
+                attendee[field] = value;
+                localStorage.setItem('foreignAttendees', JSON.stringify(foreignAttendees));
+                renderForeignTable();
+                updateStats();
+            }
+        }
+
+        function updateDomesticStatus(id, field, value) {
+            const attendee = domesticAttendees.find(a => a.id === id);
+            if (attendee) {
+                attendee[field] = value;
+                localStorage.setItem('domesticAttendees', JSON.stringify(domesticAttendees));
+                renderDomesticTable();
+                updateStats();
+            }
+        }
+
+        function deleteForeignAttendee(id) {
+            if (confirm('Delete this attendee?')) {
+                foreignAttendees = foreignAttendees.filter(a => a.id !== id);
+                localStorage.setItem('foreignAttendees', JSON.stringify(foreignAttendees));
+                renderForeignTable();
+                updateStats();
+            }
+        }
+
+        function deleteDomesticAttendee(id) {
+            if (confirm('Delete this attendee?')) {
+                domesticAttendees = domesticAttendees.filter(a => a.id !== id);
+                localStorage.setItem('domesticAttendees', JSON.stringify(domesticAttendees));
+                renderDomesticTable();
+                updateStats();
+            }
+        }
+
+        function calculateForeignCompletion(attendee) {
+            const fields = ['visa', 'insurance', 'onward_flight', 'return_flight', 'accommodation', 'pickup', 'drop', 'checkin'];
+            const completed = fields.filter(f => {
+                const val = attendee[f];
+                return val === 'Approved' || val === 'Confirmed' || val === 'Booked' || val === 'Arranged';
+            }).length;
+            return Math.round((completed / fields.length) * 100);
+        }
+
+        function calculateDomesticCompletion(attendee) {
+            const fields = ['registration', 'travel_booked', 'accommodation', 'checkin'];
+            const completed = fields.filter(f => {
+                const val = attendee[f];
+                return val === 'Confirmed' || val === 'Booked';
+            }).length;
+            return Math.round((completed / fields.length) * 100);
+        }
+
+        function updateStats() {
+            document.getElementById('total-foreign').textContent = foreignAttendees.length;
+            document.getElementById('total-domestic').textContent = domesticAttendees.length;
+
+            const totalForeignTasks = foreignAttendees.length * 8;
+            const completedForeignTasks = foreignAttendees.reduce((sum, a) => {
+                return sum + ['visa', 'insurance', 'onward_flight', 'return_flight', 'accommodation', 'pickup', 'drop', 'checkin']
+                    .filter(f => a[f] === 'Approved' || a[f] === 'Confirmed' || a[f] === 'Booked' || a[f] === 'Arranged').length;
+            }, 0);
+            document.getElementById('tasks-foreign').textContent = completedForeignTasks + '/' + totalForeignTasks;
+
+            const totalDomesticTasks = domesticAttendees.length * 4;
+            const completedDomesticTasks = domesticAttendees.reduce((sum, a) => {
+                return sum + ['registration', 'travel_booked', 'accommodation', 'checkin']
+                    .filter(f => a[f] === 'Confirmed' || a[f] === 'Booked').length;
+            }, 0);
+            document.getElementById('tasks-domestic').textContent = completedDomesticTasks + '/' + totalDomesticTasks;
+
+            const totalTasks = totalForeignTasks + totalDomesticTasks;
+            const completedTasks = completedForeignTasks + completedDomesticTasks;
+            const overall = totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
+            document.getElementById('overall-completion').textContent = overall + '%';
+        }
+
+        function renderForeignTable() {
+            const tbody = document.getElementById('foreign-tbody');
+            
+            if (foreignAttendees.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="13" class="empty-state-text">No attendees added yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = foreignAttendees.map((a, i) => {
+                const completion = calculateForeignCompletion(a);
+                return `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td><strong>${a.name}</strong></td>
+                        <td>${a.country}</td>
+                        <td><select class="status-select ${getStatusClass(a.visa)}" onchange="updateForeignStatus(${a.id}, 'visa', this.value)">
+                            <option value="Pending" ${a.visa === 'Pending' ? 'selected' : ''}>Pending</option>
+                            <option value="In Progress" ${a.visa === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                            <option value="Approved" ${a.visa === 'Approved' ? 'selected' : ''}>Approved</option>
+                        </select></td>
+                        <td><select class="status-select ${getStatusClass(a.insurance)}" onchange="updateForeignStatus(${a.id}, 'insurance', this.value)">
+                            <option value="Pending" ${a.insurance === 'Pending' ? 'selected' : ''}>Pending</option>
+                            <option value="Approved" ${a.insurance === 'Approved' ? 'selected' : ''}>Approved</option>
+                        </select></td>
+                        <td><select class="status-select ${getStatusClass(a.onward_flight)}" onchange="updateForeignStatus(${a.id}, 'onward_flight', this.value)">
+                            <option value="Yet to Book" ${a.onward_flight === 'Yet to Book' ? 'selected' : ''}>Yet to Book</option>
+                            <option value="Waiting for Confirmation" ${a.onward_flight === 'Waiting for Confirmation' ? 'selected' : ''}>Waiting</option>
+                            <option value="Partially" ${a.onward_flight === 'Partially' ? 'selected' : ''}>Partially</option>
+                            <option value="Booked" ${a.onward_flight === 'Booked' ? 'selected' : ''}>Booked</option>
+                        </select></td>
+                        <td><select class="status-select ${getStatusClass(a.return_flight)}" onchange="updateForeignStatus(${a.id}, 'return_flight', this.value)">
+                            <option value="Yet to Book" ${a.return_flight === 'Yet to Book' ? 'selected' : ''}>Yet to Book</option>
+                            <option value="Waiting for Confirmation" ${a.return_flight === 'Waiting for Confirmation' ? 'selected' : ''}>Waiting</option>
+                            <option value="Partially" ${a.return_flight === 'Partially' ? 'selected' : ''}>Partially</option>
+                            <option value="Booked" ${a.return_flight === 'Booked' ? 'selected' : ''}>Booked</option>
+                        </select></td>
+                        <td><select class="status-select ${getStatusClass(a.accommodation)}" onchange="updateForeignStatus(${a.id}, 'accommodation', this.value)">
+                            <option value="Not Booked" ${a.accommodation === 'Not Booked' ? 'selected' : ''}>Not Booked</option>
+                            <option value="Booked" ${a.accommodation === 'Booked' ? 'selected' : ''}>Booked</option>
+                        </select></td>
+                        <td><select class="status-select ${getStatusClass(a.pickup)}" onchange="updateForeignStatus(${a.id}, 'pickup', this.value)">
+                            <option value="Not Arranged" ${a.pickup === 'Not Arranged' ? 'selected' : ''}>Not Arranged</option>
+                            <option value="Arranged" ${a.pickup === 'Arranged' ? 'selected' : ''}>Arranged</option>
+                        </select></td>
+                        <td><select class="status-select ${getStatusClass(a.drop)}" onchange="updateForeignStatus(${a.id}, 'drop', this.value)">
+                            <option value="Not Arranged" ${a.drop === 'Not Arranged' ? 'selected' : ''}>Not Arranged</option>
+                            <option value="Arranged" ${a.drop === 'Arranged' ? 'selected' : ''}>Arranged</option>
+                        </select></td>
+                        <td><select class="status-select ${getStatusClass(a.checkin)}" onchange="updateForeignStatus(${a.id}, 'checkin', this.value)">
+                            <option value="Pending" ${a.checkin === 'Pending' ? 'selected' : ''}>Pending</option>
+                            <option value="Confirmed" ${a.checkin === 'Confirmed' ? 'selected' : ''}>Confirmed</option>
+                        </select></td>
+                        <td>
+                            <div style="text-align: center;">
+                                <strong>${completion}%</strong>
+                                <div class="completion-bar">
+                                    <div class="completion-fill" style="width: ${completion}%"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><button class="delete-btn" onclick="deleteForeignAttendee(${a.id})">Delete</button></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderDomesticTable() {
+            const tbody = document.getElementById('domestic-tbody');
+            
+            if (domesticAttendees.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="10" class="empty-state-text">No attendees added yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = domesticAttendees.map((a, i) => {
+                const completion = calculateDomesticCompletion(a);
+                return `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td><strong>${a.name}</strong></td>
+                        <td>${a.city}</td>
+                        <td><span style="background: #e8ecf1; padding: 4px 8px; border-radius: 4px; font-weight: 500;">${a.travel_mode}</span></td>
+                        <td><select class="status-select ${getStatusClass(a.registration)}" onchange="updateDomesticStatus(${a.id}, 'registration', this.value)">
+                            <option value="Pending" ${a.registration === 'Pending' ? 'selected' : ''}>Pending</option>
+                            <option value="Confirmed" ${a.registration === 'Confirmed' ? 'selected' : ''}>Confirmed</option>
+                        </select></td>
+                        <td><select class="status-select ${getStatusClass(a.travel_booked)}" onchange="updateDomesticStatus(${a.id}, 'travel_booked', this.value)">
+                            <option value="Yet to Book" ${a.travel_booked === 'Yet to Book' ? 'selected' : ''}>Yet to Book</option>
+                            <option value="Waiting for Confirmation" ${a.travel_booked === 'Waiting for Confirmation' ? 'selected' : ''}>Waiting</option>
+                            <option value="Booked" ${a.travel_booked === 'Booked' ? 'selected' : ''}>Booked</option>
+                        </select></td>
+                        <td><select class="status-select ${getStatusClass(a.accommodation)}" onchange="updateDomesticStatus(${a.id}, 'accommodation', this.value)">
+                            <option value="Not Booked" ${a.accommodation === 'Not Booked' ? 'selected' : ''}>Not Booked</option>
+                            <option value="Booked" ${a.accommodation === 'Booked' ? 'selected' : ''}>Booked</option>
+                        </select></td>
+                        <td><select class="status-select ${getStatusClass(a.checkin)}" onchange="updateDomesticStatus(${a.id}, 'checkin', this.value)">
+                            <option value="Pending" ${a.checkin === 'Pending' ? 'selected' : ''}>Pending</option>
+                            <option value="Confirmed" ${a.checkin === 'Confirmed' ? 'selected' : ''}>Confirmed</option>
+                        </select></td>
+                        <td>
+                            <div style="text-align: center;">
+                                <strong>${completion}%</strong>
+                                <div class="completion-bar">
+                                    <div class="completion-fill" style="width: ${completion}%"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><button class="delete-btn" onclick="deleteDomesticAttendee(${a.id})">Delete</button></td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function clearForeignForm() {
+            document.getElementById('f-name').value = '';
+            document.getElementById('f-country').value = '';
+            document.getElementById('f-passport').value = '';
+            document.getElementById('f-passport-expiry').value = '';
+            document.getElementById('f-whatsapp').value = '';
+            document.getElementById('f-emergency').value = '';
+            document.getElementById('f-emergency-name').value = '';
+            document.getElementById('f-food').value = '';
+            document.getElementById('f-notes').value = '';
+        }
+
+        function clearDomesticForm() {
+            document.getElementById('d-name').value = '';
+            document.getElementById('d-city').value = '';
+            document.getElementById('d-phone').value = '';
+            document.getElementById('d-whatsapp').value = '';
+            document.getElementById('d-emergency').value = '';
+            document.getElementById('d-emergency-name').value = '';
+            document.getElementById('d-travel-mode').value = '';
+            document.getElementById('d-food').value = '';
+            document.getElementById('d-notes').value = '';
+        }
+
+        function showSuccess(elementId) {
+            const el = document.getElementById(elementId);
+            el.classList.add('show');
+            setTimeout(() => el.classList.remove('show'), 3000);
+        }
+
+        // Load sample data on first visit
+        if (foreignAttendees.length === 0 && domesticAttendees.length === 0) {
+            foreignAttendees = [
+                { 
+                    id: 1, 
+                    name: 'John Smith', 
+                    country: 'USA', 
+                    passport: 'P12345678',
+                    passport_expiry: '2027-06-15',
+                    whatsapp: '+1-555-0100',
+                    emergency: '+1-555-0101',
+                    emergency_name: 'Jane Smith',
+                    food: 'Non-veg',
+                    visa: 'Approved', 
+                    insurance: 'Approved', 
+                    onward_flight: 'Booked', 
+                    return_flight: 'Booked',
+                    accommodation: 'Booked', 
+                    pickup: 'Arranged', 
+                    drop: 'Not Arranged', 
+                    checkin: 'Pending',
+                    notes: 'Prefers window seat'
+                }
+            ];
+            domesticAttendees = [
+                { 
+                    id: 101, 
+                    name: 'Amit Kumar', 
+                    city: 'Bangalore', 
+                    phone: '+91-98765-43210',
+                    whatsapp: '+91-98765-43210',
+                    emergency: '+91-99999-00001',
+                    emergency_name: 'Priya Kumar',
+                    travel_mode: 'Flight',
+                    food: 'Veg',
+                    registration: 'Confirmed', 
+                    travel_booked: 'Booked', 
+                    accommodation: 'Booked', 
+                    checkin: 'Pending',
+                    notes: 'Early morning flight preferred'
+                }
+            ];
+            localStorage.setItem('foreignAttendees', JSON.stringify(foreignAttendees));
+            localStorage.setItem('domesticAttendees', JSON.stringify(domesticAttendees));
+        }
+
+        // Initial render
+        renderForeignTable();
+        renderDomesticTable();
+        updateStats();
+    </script>
+</body>
+</html>
